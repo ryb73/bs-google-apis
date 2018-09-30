@@ -56,7 +56,7 @@ type name = {
 type t = {
     resourceName: string,
     etag: string,
-    names: array(name),
+    names: option(array(name)),
 };
 
 type field =
