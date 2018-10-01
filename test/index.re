@@ -5,12 +5,15 @@ type config = {
     clientId: string,
     secret: string,
     code: string,
+    redirectUri: string,
 };
 
-let { clientId, secret, code } =
+Js.log(Auth.getAuthUrl(~state="stayt", "cli", [|Auth.YouTube|], "http://www.com/", Auth.Code));
+
+let { clientId, secret, code, redirectUri } =
     Config.get("test") |> config_decode |> Belt.Result.getExn;
 
-Auth.getTokensFromCode(clientId, secret, code)
+Auth.getTokensFromCode(clientId, secret, code, redirectUri)
 |> then_(({ Auth.access_token }) => {
     Js.log2("token", access_token);
     People.getMe(access_token, [| People.Names |]);

@@ -3,7 +3,7 @@ open Belt.Result;
 open Types;
 open Superagent;
 
-let apiUrl = "https://people.googleapis.com/v1/";
+let apiUrl = "https://people.googleapis.com/v1";
 
 let buildGet = (accessToken, path) =>
     get(apiUrl ++ path)

@@ -6,6 +6,7 @@
         "decco",
         "bs-superagent",
         "bs-promise-ex",
+        "bs-qs",
     ],
     "bs-dev-dependencies": [
         "bs-config",
