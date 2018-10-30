@@ -8,9 +8,16 @@ type tokens = {
     expires_in: int
 };
 
-let _getOption = fun
-    | Some(v) => v
-    | None => failwith("Expected Some, got None");
+type responseType = Code | Token;
+type accessType = Online | Offline;
+
+let _getResponseTypeString = fun
+    | Code => "code"
+    | Token => "token";
+
+let _getAccessTypeString = fun
+    | Online => "online"
+    | Offline => "offline";
 
 let _accessTokenApiCall = (reqData) =>
     post("https://www.googleapis.com/oauth2/v4/token")
@@ -18,24 +25,28 @@ let _accessTokenApiCall = (reqData) =>
     |> send(reqData)
     |> end_
     |> map(({ body }) => body
-        |> _getOption
+        |> Belt.Option.getExn
         |> tokens_decode
     )
     |> unwrapResult;
 
-let getTokensFromCode = (clientId, secret, code,  redirectUri) => {
-    Js.Dict.fromList
-        ([
-            ("client_id", clientId),
-            ("client_secret", secret),
-            ("grant_type", "authorization_code"),
-            ("code", code),
-            ("redirect_uri", redirectUri)
-        ])
-        |> (v) => { Js.log(v); v }
-        |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
-        |> Js.Json.object_
-        |> _accessTokenApiCall;
+let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) => {
+    let opts = [|
+        ("client_id", clientId),
+        ("client_secret", secret),
+        ("grant_type", "authorization_code"),
+        ("code", code),
+        ("redirect_uri", redirectUri)
+    |];
+
+    Belt.Option.map(accessType, (at) =>
+        Js.Array.push(("access_type", _getAccessTypeString(at)), opts));
+
+    opts
+    |> Js.Dict.fromArray
+    |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
+    |> Js.Json.object_
+    |> _accessTokenApiCall;
 };
 
 type scope =
@@ -79,17 +90,6 @@ let _getScopeString = (scopes) =>
     |> Js.Array.map(_getScopeStringSingle)
     |> Js.Array.joinWith(" ");
 
-type responseType = Code | Token;
-type accessType = Online | Offline;
-
-let _getResponseTypeString = fun
-    | Code => "code"
-    | Token => "token";
-
-let _getAccessTypeString = fun
-    | Online => "online"
-    | Offline => "offline";
-
 let getAuthUrl = (~state=?, ~accessType=?, clientId, scopes, redirectUri, responseType) => {
     let opts = [|
         ("client_id", clientId),
@@ -99,7 +99,8 @@ let getAuthUrl = (~state=?, ~accessType=?, clientId, scopes, redirectUri, respon
     |];
 
     Belt.Option.map(state, (s) => Js.Array.push(("state", s), opts));
-    Belt.Option.map(accessType, (at) => Js.Array.push(("access_type", _getAccessTypeString(at)), opts));
+    Belt.Option.map(accessType, (at) =>
+        Js.Array.push(("access_type", _getAccessTypeString(at)), opts));
 
     let qs = opts
     |> Js.Dict.fromArray
