@@ -4,7 +4,7 @@
   "description": "Bucklescript bindings for Google REST Apis",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest --testRunner jest-circus/runner --testMatch **/__tests__/**/test*.js",
     "build": "npm run clean && bsb -make-world",
     "watch": "npm run clean && bsb -make-world -w",
     "clean": "rm -rf lib && bsb -clean-world"
@@ -26,5 +26,10 @@
   },
   "peerDependencies": {
     "bs-platform": "^2.0.0"
+  },
+  "devDependencies": {
+    "@glennsl/bs-jest": "^0.4.4",
+    "jest": "^23.6.0",
+    "jest-circus": "^23.6.0"
   }
 }

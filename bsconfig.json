@@ -10,11 +10,16 @@
     ],
     "bs-dev-dependencies": [
         "bs-config",
+        "@glennsl/bs-jest",
     ],
     "sources" : [
-        { "dir" : "src" },
         {
-            "dir": "test",
+            "dir": "src",
+            "subdirs": true,
+            "public": ["Auth", "People", "Types", "YouTube"],
+        },
+        {
+            "dir": "__tests__",
             "type": "dev"
         }
     ],
