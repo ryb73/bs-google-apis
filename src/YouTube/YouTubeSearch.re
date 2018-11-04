@@ -4,7 +4,7 @@ open Std;
 let _apiUrl = "https://www.googleapis.com/youtube/v3";
 
 module List = {
-    [@decco]
+    [@decco.decode]
     type snippet = {
         channelId: string,
         channelTitle: string,
@@ -12,25 +12,33 @@ module List = {
         description: string
     };
 
-    [@decco]
-    type id = {
-        videoId: string
+    [@decco.decode]
+    type _idRaw = {
+        videoId: option(string),
+        playlistId: option(string),
+        channelId: option(string),
     };
 
-    [@decco]
+    type id = Video(string) | Playlist(string) | Channel(string);
+    let id_decode = (j) =>
+        switch (_idRaw_decode(j)) {
+        | Error(_) as e => e
+        | Ok({ videoId: Some(id) }) => Ok(Video(id))
+        | Ok({ playlistId: Some(id) }) => Ok(Playlist(id))
+        | Ok({ channelId: Some(id) }) => Ok(Channel(id))
+        | Ok({ videoId: None, playlistId: None, channelId: None }) =>
+            Decco.error("Invalid ID format", j)
+        };
+
+    [@decco.decode]
     type item = {
         id: id,
         snippet: snippet
     };
 
-    [@decco]
-    type items = {
-        items: array(item)
-    };
-
-    [@decco]
+    [@decco.decode]
     type result = {
-        result: items
+        items: array(item)
     };
 
     let maxResultsLimit = 50;
@@ -42,9 +50,9 @@ let _setOptionalQueryParam = (key, value, req) =>
         | None => req
     };
 
-let list = (~maxResults=?, ~part, ~query as q, accessToken) =>
+let list = (~maxResults=?, ~query as q, accessToken) =>
     buildGet(_apiUrl, accessToken, "/search")
-    |> query("part", part)
+    |> query("part", "snippet")
     |> query("q", q)
     |> _setOptionalQueryParam("maxResults", maxResults)
-    |> sendReq(result_decode);
+    |> sendReq(List.result_decode);

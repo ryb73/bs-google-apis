@@ -10,6 +10,11 @@ type tokens = {
 
 type responseType = Code | Token;
 type accessType = Online | Offline;
+type scope =
+    | Profile | Email | YouTube | YouTubeSSL | YouTubeReadOnly | YouTubePartner
+    | YouTubePartnerChannelAudit | Contacts | ContactsReadOnly | PlusLogin
+    | UserAddressesRead | UserBirthdayRead | UserEmailsRead | UserPhoneNumbersRead
+    | UserInfoEmail | UserInfoProfile;
 
 let _getResponseTypeString = fun
     | Code => "code"
@@ -18,6 +23,28 @@ let _getResponseTypeString = fun
 let _getAccessTypeString = fun
     | Online => "online"
     | Offline => "offline";
+
+let _getScopeStringSingle = fun
+    | Profile => "profile" | Email => "email"
+    | YouTube => "https://www.googleapis.com/auth/youtube"
+    | YouTubeSSL => "https://www.googleapis.com/auth/youtube.force-ssl"
+    | YouTubeReadOnly => "https://www.googleapis.com/auth/youtube.readonly"
+    | YouTubePartner => "https://www.googleapis.com/auth/youtubepartner"
+    | YouTubePartnerChannelAudit => "https://www.googleapis.com/auth/youtubepartner-channel-audit"
+    | Contacts => "https://www.googleapis.com/auth/contacts"
+    | ContactsReadOnly => "https://www.googleapis.com/auth/contacts.readonly"
+    | PlusLogin => "https://www.googleapis.com/auth/plus.login"
+    | UserAddressesRead => "https://www.googleapis.com/auth/user.addresses.read"
+    | UserBirthdayRead => "https://www.googleapis.com/auth/user.birthday.read"
+    | UserEmailsRead => "https://www.googleapis.com/auth/user.emails.read"
+    | UserPhoneNumbersRead => "https://www.googleapis.com/auth/user.phonenumbers.read"
+    | UserInfoEmail => "https://www.googleapis.com/auth/userinfo.email"
+    | UserInfoProfile => "https://www.googleapis.com/auth/userinfo.profile";
+
+let _getScopeString = (scopes) =>
+    scopes
+    |> Js.Array.map(_getScopeStringSingle)
+    |> Js.Array.joinWith(" ");
 
 let _accessTokenApiCall = (reqData) =>
     post("https://www.googleapis.com/oauth2/v4/token")
@@ -49,46 +76,28 @@ let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) =>
     |> _accessTokenApiCall;
 };
 
-type scope =
-    | Profile
-    | Email
-    | YouTube
-    | YouTubeSSL
-    | YouTubeReadOnly
-    | YouTubePartner
-    | YouTubePartnerChannelAudit
-    | Contacts
-    | ContactsReadOnly
-    | PlusLogin
-    | UserAddressesRead
-    | UserBirthdayRead
-    | UserEmailsRead
-    | UserPhoneNumbersRead
-    | UserInfoEmail
-    | UserInfoProfile;
+let _generateJwt = (scope, email, privateKey) =>
+    [|
+        ("iss", Js.Json.string(email)),
+        ("scope", _getScopeString(scope) |> Js.Json.string),
+        ("aud", Js.Json.string("https://www.googleapis.com/oauth2/v4/token")),
+        ("exp", (Js.Date.now() /. 1000. +. (60.*.60.)) |> floor |> Js.Json.number), /* 60min * 60sec = 1hr */
+        ("iat", (Js.Date.now() /. 1000.) |> floor |> Js.Json.number)
+    |]
+    |> Js.Dict.fromArray
+    |> Js.Json.object_
+    |> JsonWebToken.sign(~algorithm=JsonWebToken.RS256, _, privateKey);
 
-let _getScopeStringSingle = fun
-    | Profile => "profile"
-    | Email => "email"
-    | YouTube => "https://www.googleapis.com/auth/youtube"
-    | YouTubeSSL => "https://www.googleapis.com/auth/youtube.force-ssl"
-    | YouTubeReadOnly => "https://www.googleapis.com/auth/youtube.readonly"
-    | YouTubePartner => "https://www.googleapis.com/auth/youtubepartner"
-    | YouTubePartnerChannelAudit => "https://www.googleapis.com/auth/youtubepartner-channel-audit"
-    | Contacts => "https://www.googleapis.com/auth/contacts"
-    | ContactsReadOnly => "https://www.googleapis.com/auth/contacts.readonly"
-    | PlusLogin => "https://www.googleapis.com/auth/plus.login"
-    | UserAddressesRead => "https://www.googleapis.com/auth/user.addresses.read"
-    | UserBirthdayRead => "https://www.googleapis.com/auth/user.birthday.read"
-    | UserEmailsRead => "https://www.googleapis.com/auth/user.emails.read"
-    | UserPhoneNumbersRead => "https://www.googleapis.com/auth/user.phonenumbers.read"
-    | UserInfoEmail => "https://www.googleapis.com/auth/userinfo.email"
-    | UserInfoProfile => "https://www.googleapis.com/auth/userinfo.profile"
-
-let _getScopeString = (scopes) =>
-    scopes
-    |> Js.Array.map(_getScopeStringSingle)
-    |> Js.Array.joinWith(" ");
+let getTokensForServiceAccount = (scope, email, privateKey) =>
+    /* https://developers.google.com/identity/protocols/OAuth2ServiceAccount */
+    [|
+        ("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"),
+        ("assertion", _generateJwt(scope, email, privateKey))
+    |]
+    |> Js.Dict.fromArray
+    |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
+    |> Js.Json.object_
+    |> _accessTokenApiCall;
 
 let getAuthUrl = (~state=?, ~accessType=?, clientId, scopes, redirectUri, responseType) => {
     let opts = [|

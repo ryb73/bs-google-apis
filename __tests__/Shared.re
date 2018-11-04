@@ -1,22 +1,25 @@
 open PromiseEx;
 
 [@decco]
+type serviceAccount = {
+    email: string,
+    privateKey: string
+};
+
+[@decco]
 type people = {
     userId: string
 };
 
 [@decco]
 type config = {
-    clientId: string,
-    secret: string,
-    code: string,
-    redirectUri: string,
+    serviceAccount: serviceAccount,
     people: people,
 };
 
-let { clientId, secret, code, redirectUri, people } =
+let { people, serviceAccount: { email, privateKey } } =
     Config.get("test") |> config_decode |> Belt.Result.getExn;
 
 let accessToken =
-    Auth.getTokensFromCode(clientId, secret, code, redirectUri)
+    Auth.getTokensForServiceAccount([| Auth.YouTubeSSL, Auth.Profile |], email, privateKey)
     |> map(({ Auth.access_token }) => access_token);

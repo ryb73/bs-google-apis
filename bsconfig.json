@@ -7,6 +7,7 @@
         "bs-superagent",
         "bs-promise-ex",
         "bs-qs",
+        "bs-jsonwebtoken",
     ],
     "bs-dev-dependencies": [
         "bs-config",
