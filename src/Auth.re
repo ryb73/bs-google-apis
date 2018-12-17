@@ -99,6 +99,18 @@ let getTokensForServiceAccount = (scope, email, privateKey) =>
     |> Js.Json.object_
     |> _accessTokenApiCall;
 
+let refreshAccessToken = (clientId, secret, refreshToken) =>
+    [|
+        ("refresh_token", refreshToken),
+        ("client_id", clientId),
+        ("client_secret", secret),
+        ("grant_type", "refresh_token")
+    |]
+    |> Js.Dict.fromArray
+    |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
+    |> Js.Json.object_
+    |> _accessTokenApiCall;
+
 let getAuthUrl = (~state=?, ~accessType=?, clientId, scopes, redirectUri, responseType) => {
     let opts = [|
         ("client_id", clientId),

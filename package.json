@@ -7,7 +7,8 @@
     "test": "jest --testRunner jest-circus/runner --testMatch **/__tests__/**/test*.js",
     "build": "npm run clean && bsb -make-world",
     "watch": "npm run clean && bsb -make-world -w",
-    "clean": "rm -rf lib && bsb -clean-world"
+    "clean": "rm -rf lib && bsb -clean-world",
+    "postinstall": "[ ! -f package-links.json ] || ppl link-file"
   },
   "keywords": [
     "bucklescript",
@@ -25,11 +26,18 @@
     "url": "git@github.com:ryb73/bs-google-apis.git"
   },
   "peerDependencies": {
-    "bs-platform": "^2.0.0"
+    "bs-platform": "^4.0.0"
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.4",
     "jest": "^23.6.0",
-    "jest-circus": "^23.6.0"
+    "jest-circus": "^23.6.0",
+    "reduice": "0.0.1",
+    "decco": "0.0.1",
+    "bs-superagent": "0.0.1",
+    "bs-config": "0.0.1",
+    "bs-promise-ex": "0.0.1",
+    "bs-qs": "2.0.0",
+    "bs-jsonwebtoken": "0.0.1"
   }
 }
