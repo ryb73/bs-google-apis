@@ -1,7 +1,6 @@
 open Superagent;
 open Std;
-
-let _apiUrl = "https://www.googleapis.com/youtube/v3";
+open YouTubeStd;
 
 module List = {
     [@decco.decode]
@@ -44,15 +43,9 @@ module List = {
     let maxResultsLimit = 50;
 };
 
-let _setOptionalQueryParam = (key, value, req) =>
-    switch value {
-        | Some(value) => query(key, value, req)
-        | None => req
-    };
-
 let list = (~maxResults=?, ~query as q, accessToken) =>
-    buildGet(_apiUrl, accessToken, "/search")
+    buildGet(apiUrl, accessToken, "/search")
     |> query("part", "snippet")
     |> query("q", q)
-    |> _setOptionalQueryParam("maxResults", maxResults)
+    |> setOptionalQueryParam("maxResults", maxResults)
     |> sendReq(List.result_decode);

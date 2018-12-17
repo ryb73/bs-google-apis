@@ -17,3 +17,22 @@ describe("Search", () => {
         |> toJs
     );
 });
+
+describe("Videos", () => {
+    open YouTube.Videos;
+
+    testPromise("list", () =>
+        accessToken
+        |> then_(listById(~parts=[| ContentDetails |], ~id="YbJOTdZBX1g"))
+        |> map(({ List.items }) =>
+            switch items {
+                | [| { List.contentDetails } |] =>
+                    Belt.Option.getExn(contentDetails).duration
+                    |> expect |> toEqual("PT8M14S")
+
+                | _ => failwith("Invalid number of results")
+            }
+        )
+        |> toJs
+    );
+});

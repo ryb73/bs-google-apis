@@ -1,0 +1,1 @@
+let apiUrl = "https://www.googleapis.com/youtube/v3";

@@ -23,3 +23,9 @@ let sendReq = (decoder, request) =>
             | None => raise(NoBody(resp))
         }
     );
+
+let setOptionalQueryParam = (key, value, req) =>
+    switch value {
+        | Some(value) => query(key, value, req)
+        | None => req
+    };
