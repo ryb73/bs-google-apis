@@ -21,18 +21,33 @@ describe("Search", () => {
 describe("Videos", () => {
     open YouTube.Videos;
 
-    testPromise("list", () =>
-        accessToken
-        |> then_(listById(~parts=[| ContentDetails |], ~id="YbJOTdZBX1g"))
-        |> map(({ List.items }) =>
-            switch items {
-                | [| { List.contentDetails } |] =>
-                    Belt.Option.getExn(contentDetails).duration
-                    |> expect |> toEqual("PT8M14S")
+    describe("list", () => {
+        testPromise("one", () =>
+            accessToken
+            |> then_(listById(~parts=[| ContentDetails |], ~ids=[| "YbJOTdZBX1g" |]))
+            |> map(({ List.items }) =>
+                switch items {
+                    | [| { List.contentDetails } |] =>
+                        Belt.Option.getExn(contentDetails).duration
+                        |> expect |> toEqual("PT8M14S")
 
-                | _ => failwith("Invalid number of results")
-            }
-        )
-        |> toJs
-    );
+                    | _ => failwith("Invalid number of results")
+                }
+            )
+            |> toJs
+        );
+
+        testPromise("many", () =>
+            accessToken
+            |> then_(listById(
+                ~parts=[| ContentDetails |],
+                ~ids=[| "YbJOTdZBX1g", "R4sqFmSqrSc" |],
+            ))
+            |> map(({ List.items }) =>
+                expect(Js.Array.length(items))
+                |> toEqual(2)
+            )
+            |> toJs
+        );
+    });
 });

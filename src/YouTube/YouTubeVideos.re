@@ -49,9 +49,9 @@ let encodeParts = (parts) =>
     Js.Array.map(encodePart, parts)
     |> Js.Array.joinWith(",");
 
-let listById = (~maxResults=?, ~parts, ~id, accessToken) =>
+let listById = (~maxResults=?, ~parts, ~ids, accessToken) =>
     buildGet(apiUrl, accessToken, "/videos")
     |> query("part", encodeParts(parts))
-    |> query("id", id)
+    |> query("id", Js.Array.joinWith(",", ids))
     |> setOptionalQueryParam("maxResults", maxResults)
     |> sendReq(List.result_decode);
