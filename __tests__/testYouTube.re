@@ -11,7 +11,7 @@ describe("Search", () => {
         |> map(({ YouTube.Search.List.items }) =>
             switch items {
             | [||] => failwith("No results found")
-            | _ => expect(items[0].id) |> toEqual(YouTube.Search.List.Video("R4sqFmSqrSc"))
+            | _ => expect(items[0].id) |> toEqual(YouTube.Search.Video("R4sqFmSqrSc"))
             }
         )
         |> toJs
@@ -27,11 +27,11 @@ describe("Videos", () => {
             |> then_(listById(~parts=[| ContentDetails |], ~ids=[| "YbJOTdZBX1g" |]))
             |> map(({ List.items }) =>
                 switch items {
-                    | [| { List.contentDetails } |] =>
+                    | [| { contentDetails } |] =>
                         Belt.Option.getExn(contentDetails).duration
                         |> expect |> toEqual("PT8M14S")
 
-                    | _ => failwith("Invalid number of results")
+                    | _ => Js.Exn.raiseError("Invalid number of results")
                 }
             )
             |> toJs
@@ -50,4 +50,23 @@ describe("Videos", () => {
             |> toJs
         );
     });
+});
+
+describe("Playlists", () => {
+    open YouTube.Playlists;
+
+    testPromise("list", () =>
+        accessToken
+        |> then_(listById(~parts=[| Snippet |], ~ids=[| "PLE62536DAAECB0527" |]))
+        |> map(({ List.items }) =>
+            switch items {
+                | [| { snippet } |] =>
+                    Belt.Option.getExn(snippet).title
+                    |> expect |> toEqual("Cool Experiments!")
+
+                | _ => Js.Exn.raiseError("Invalid number of results")
+            }
+        )
+        |> toJs
+    );
 });

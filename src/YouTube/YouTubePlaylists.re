@@ -13,7 +13,7 @@ type snippet = {
 
 [@decco]
 type contentDetails = {
-    duration: string,
+    itemCount: int,
 };
 
 [@decco.decode]
@@ -32,24 +32,16 @@ module List = {
     let maxResultsLimit = 50;
 };
 
-type part =
-    | ContentDetails | FileDetails | Id | LiveStreamingDetails | Localizations
-    | Player | ProcessingDetails | RecordingDetails | Snippet | Statistics
-    | Status | Suggestions | TopicDetails;
+type part = ContentDetails | Id | Snippet;
 let encodePart = fun
-    | ContentDetails => "contentDetails" | FileDetails => "fileDetails" | Id => "id"
-    | LiveStreamingDetails => "liveStreamingDetails" | Localizations => "localizations"
-    | Player => "player" | ProcessingDetails => "processingDetails"
-    | RecordingDetails => "recordingDetails" | Snippet => "snippet"
-    | Statistics => "statistics" | Status => "status" | Suggestions => "suggestions"
-    | TopicDetails => "topicDetails";
+    | ContentDetails => "contentDetails" | Id => "id" | Snippet => "snippet";
 
 let encodeParts = (parts) =>
     Js.Array.map(encodePart, parts)
     |> Js.Array.joinWith(",");
 
 let listById = (~maxResults=?, ~parts, ~ids, accessToken) =>
-    buildGet(apiUrl, accessToken, "/videos")
+    buildGet(apiUrl, accessToken, "/playlists")
     |> query("part", encodeParts(parts))
     |> query("id", Js.Array.joinWith(",", ids))
     |> setOptionalQueryParam("maxResults", maxResults)
