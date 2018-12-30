@@ -9,9 +9,9 @@ type snippet = {
     description: string
 };
 
-[@decco] type id = string;
+[@decco.decode] type id = string;
 
-[@decco]
+[@decco.decode]
 type contentDetails = {
     itemCount: int,
 };

@@ -11,7 +11,7 @@ type snippet = {
 };
 
 [@decco.decode]
-type _idRaw = {
+type idRaw = {
     videoId: option(string),
     playlistId: option(string),
     channelId: option(string),
@@ -19,7 +19,7 @@ type _idRaw = {
 
 type id = Video(string) | Playlist(string) | Channel(string);
 let id_decode = (j) =>
-    switch (_idRaw_decode(j)) {
+    switch (idRaw_decode(j)) {
     | Error(_) as e => e
     | Ok({ videoId: Some(id) }) => Ok(Video(id))
     | Ok({ playlistId: Some(id) }) => Ok(Playlist(id))
