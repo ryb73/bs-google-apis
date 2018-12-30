@@ -47,5 +47,5 @@ let list = (~maxResults=?, ~query as q, accessToken) =>
     buildGet(apiUrl, accessToken, "/search")
     |> query("part", "snippet")
     |> query("q", q)
-    |> setOptionalQueryParam("maxResults", maxResults)
+    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
     |> sendReq(List.result_decode);

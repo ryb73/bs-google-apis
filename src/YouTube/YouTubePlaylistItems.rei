@@ -31,5 +31,5 @@ let withContentDetails: parts('a, 'b) => parts(contentDetails, 'b);
 let withSnippet: parts('a, 'b) => parts('a, snippet);
 
 let listByPlaylistId:
-    (~maxResults: string=?, ~parts: parts('a, 'b), ~playlistId: string,
+    (~maxResults: int=?, ~parts: parts('a, 'b), ~playlistId: string,
     string) => Reduice.Promise.t(List.result('a, 'b));

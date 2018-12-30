@@ -60,5 +60,5 @@ let listById = (~maxResults=?, ~parts, ~ids, accessToken) =>
     buildGet(apiUrl, accessToken, "/videos")
     |> query("part", parts.string)
     |> query("id", Js.Array.joinWith(",", ids))
-    |> setOptionalQueryParam("maxResults", maxResults)
+    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));

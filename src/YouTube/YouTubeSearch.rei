@@ -18,5 +18,5 @@ module List: {
 };
 
 let list:
-    (~maxResults: string=?, ~query: string, string) =>
+    (~maxResults: int=?, ~query: string, string) =>
     Reduice.Promise.t(List.result);

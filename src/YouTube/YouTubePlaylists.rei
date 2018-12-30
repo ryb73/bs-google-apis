@@ -29,5 +29,5 @@ let withContentDetails: parts('a, 'b) => parts(contentDetails, 'b);
 let withSnippet: parts('a, 'b) => parts('a, snippet);
 
 let listById:
-    (~maxResults: string=?, ~parts: parts('a, 'b), ~ids: Js.Array.t('c),
+    (~maxResults: int=?, ~parts: parts('a, 'b), ~ids: Js.Array.t(id),
     string) => Reduice.Promise.t(List.result('a, 'b));

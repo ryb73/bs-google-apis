@@ -64,5 +64,5 @@ let listByPlaylistId = (~maxResults=?, ~parts, ~playlistId, accessToken) =>
     buildGet(apiUrl, accessToken, "/playlistItems")
     |> query("part", parts.string)
     |> query("playlistId", playlistId)
-    |> setOptionalQueryParam("maxResults", maxResults)
+    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));
