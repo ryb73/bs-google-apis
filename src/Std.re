@@ -29,3 +29,9 @@ let setOptionalQueryParam = (key, value, req) =>
         | Some(value) => query(key, value, req)
         | None => req
     };
+
+let addPart = (string, newPart) =>
+    switch string {
+        | "" => newPart
+        | _ => string ++ "," ++ newPart
+    };

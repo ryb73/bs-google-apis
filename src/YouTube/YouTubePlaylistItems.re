@@ -21,32 +21,48 @@ type contentDetails = {
 };
 
 [@decco.decode]
-type item = {
+type item('cd, 's) = {
     id: id,
-    contentDetails: option(contentDetails),
-    snippet: option(snippet),
+    contentDetails: 'cd,
+    snippet: 's,
 };
 
 module List = {
     [@decco.decode]
-    type result = {
-        items: array(item)
+    type result('cd, 's) = {
+        items: array(item('cd, 's))
     };
 
     let maxResultsLimit = 50;
 };
 
-type part = ContentDetails | Id | Snippet;
-let encodePart = fun
-    | ContentDetails => "contentDetails" | Id => "id" | Snippet => "snippet";
+type parts('cd, 's) = {
+    string: string,
+    contentDetails: Decco.decoder('cd),
+    snippet: Decco.decoder('s),
+};
 
-let encodeParts = (parts) =>
-    Js.Array.map(encodePart, parts)
-    |> Js.Array.joinWith(",");
+let parts = {
+    string: "",
+    contentDetails: Decco.unitFromJson,
+    snippet: Decco.unitFromJson,
+};
+
+let withContentDetails = (parts) => {
+    ...parts,
+    string: addPart(parts.string, "contentDetails"),
+    contentDetails: contentDetails_decode,
+};
+
+let withSnippet = (parts) => {
+    ...parts,
+    string: addPart(parts.string, "snippet"),
+    snippet: snippet_decode,
+};
 
 let listByPlaylistId = (~maxResults=?, ~parts, ~playlistId, accessToken) =>
     buildGet(apiUrl, accessToken, "/playlistItems")
-    |> query("part", encodeParts(parts))
+    |> query("part", parts.string)
     |> query("playlistId", playlistId)
     |> setOptionalQueryParam("maxResults", maxResults)
-    |> sendReq(List.result_decode);
+    |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));

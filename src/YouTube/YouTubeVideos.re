@@ -17,40 +17,48 @@ type contentDetails = {
 };
 
 [@decco.decode]
-type item = {
+type item('cd, 's) = {
     id: id,
-    contentDetails: option(contentDetails),
-    snippet: option(snippet),
+    contentDetails: 'cd,
+    snippet: 's,
 };
 
 module List = {
     [@decco.decode]
-    type result = {
-        items: array(item)
+    type result('cd, 's) = {
+        items: array(item('cd, 's))
     };
 
     let maxResultsLimit = 50;
 };
 
-type part =
-    | ContentDetails | FileDetails | Id | LiveStreamingDetails | Localizations
-    | Player | ProcessingDetails | RecordingDetails | Snippet | Statistics
-    | Status | Suggestions | TopicDetails;
-let encodePart = fun
-    | ContentDetails => "contentDetails" | FileDetails => "fileDetails" | Id => "id"
-    | LiveStreamingDetails => "liveStreamingDetails" | Localizations => "localizations"
-    | Player => "player" | ProcessingDetails => "processingDetails"
-    | RecordingDetails => "recordingDetails" | Snippet => "snippet"
-    | Statistics => "statistics" | Status => "status" | Suggestions => "suggestions"
-    | TopicDetails => "topicDetails";
+type parts('cd, 's) = {
+    string: string,
+    contentDetails: Decco.decoder('cd),
+    snippet: Decco.decoder('s),
+};
 
-let encodeParts = (parts) =>
-    Js.Array.map(encodePart, parts)
-    |> Js.Array.joinWith(",");
+let parts = {
+    string: "",
+    contentDetails: Decco.unitFromJson,
+    snippet: Decco.unitFromJson,
+};
+
+let withContentDetails = (parts) => {
+    ...parts,
+    string: addPart(parts.string, "contentDetails"),
+    contentDetails: contentDetails_decode,
+};
+
+let withSnippet = (parts) => {
+    ...parts,
+    string: addPart(parts.string, "snippet"),
+    snippet: snippet_decode,
+};
 
 let listById = (~maxResults=?, ~parts, ~ids, accessToken) =>
     buildGet(apiUrl, accessToken, "/videos")
-    |> query("part", encodeParts(parts))
+    |> query("part", parts.string)
     |> query("id", Js.Array.joinWith(",", ids))
     |> setOptionalQueryParam("maxResults", maxResults)
-    |> sendReq(List.result_decode);
+    |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));
