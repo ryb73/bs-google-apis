@@ -70,3 +70,17 @@ describe("Playlists", () => {
         |> toJs
     );
 });
+
+describe("PlaylistItems", () => {
+    open YouTube.PlaylistItems;
+
+    testPromise("list", () =>
+        accessToken
+        |> then_(listByPlaylistId(~parts=[| Snippet |], ~playlistId="PLE62536DAAECB0527"))
+        |> map(({ List.items }) =>
+            Belt.Option.getExn(items[0].snippet).title
+            |> expect |> toEqual("Cool Experiments -- 1")
+        )
+        |> toJs
+    );
+});
