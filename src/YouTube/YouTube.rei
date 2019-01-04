@@ -46,8 +46,9 @@ module PlaylistItems: {
     let withSnippet: parts('a, 'b) => parts('a, snippet);
 
     let listByPlaylistId:
-        (~maxResults: int=?, ~parts: parts('a, 'b), ~playlistId: string,
-        string) => Reduice.Promise.t(List.result('a, 'b));
+        (~maxResults: int=?, ~nextPageToken: string=?,
+            ~parts: parts('a, 'b), ~playlistId: string, string)
+        => Reduice.Promise.t(List.result('a, 'b));
 };
 
 module Playlists: {

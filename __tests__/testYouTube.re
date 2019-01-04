@@ -117,4 +117,16 @@ describe("autopage", () => {
     testPromise("mR == pS", () => doTest(3, 3));
     testPromise("mR > pS", () => doTest(3, 1));
     testPromise("mR < pS", () => doTest(3, 6));
+
+    testPromise("no results", () =>
+        accessToken
+        |> then_(YouTube.autopage(~maxResults=10, ~pageSize=5,
+            YouTube.Search.list(~query="lsdfhalsdkjfhaslkdjfhasldkfads")
+        ))
+        |> map(items =>
+            Js.Array.length(items)
+            |> expect |> toEqual(0)
+        )
+        |> toJs
+    );
 });
