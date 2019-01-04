@@ -5,17 +5,17 @@ open Reduice.Promise;
 open PromiseEx;
 
 describe("Search", () => {
-    testPromise("list", () =>
+    testPromise("list", () => YouTube.Search.(
         accessToken
-        |> then_(YouTube.Search.list(~query="anberlin"))
-        |> map(({ YouTube.Search.List.items }) =>
+        |> then_(list(~query="anberlin"))
+        |> map(({ YouTube.Types.items }) =>
             switch items {
             | [||] => failwith("No results found")
-            | _ => expect(items[0].id) |> toEqual(YouTube.Search.Video("R4sqFmSqrSc"))
+            | _ => expect(items[0].id) |> toEqual(Video("R4sqFmSqrSc"))
             }
         )
         |> toJs
-    );
+    ));
 });
 
 describe("Videos", () => {
@@ -27,7 +27,7 @@ describe("Videos", () => {
         testPromise("id", () =>
             accessToken
             |> then_(listById(~parts, ~ids=[| "YbJOTdZBX1g" |]))
-            |> map(({ List.items }) =>
+            |> map(({ YouTube.Types.items }) =>
                 switch items {
                     | [| { id } |] =>
                         id
@@ -42,7 +42,7 @@ describe("Videos", () => {
         testPromise("one", () =>
             accessToken
             |> then_(listById(~parts, ~ids=[| "YbJOTdZBX1g" |]))
-            |> map(({ List.items }) =>
+            |> map(({ YouTube.Types.items }) =>
                 switch items {
                     | [| { contentDetails } |] =>
                         contentDetails.duration
@@ -57,7 +57,7 @@ describe("Videos", () => {
         testPromise("many", () =>
             accessToken
             |> then_(listById(~parts, ~ids=[| "YbJOTdZBX1g", "R4sqFmSqrSc" |]))
-            |> map(({ List.items }) =>
+            |> map(({ YouTube.Types.items }) =>
                 expect(Js.Array.length(items))
                 |> toEqual(2)
             )
@@ -73,7 +73,7 @@ describe("Playlists", () => {
     testPromise("list", () =>
         accessToken
         |> then_(listById(~parts, ~ids=[| "PLE62536DAAECB0527" |]))
-        |> map(({ List.items }) =>
+        |> map(({ YouTube.Types.items }) =>
             switch items {
                 | [| { snippet } |] =>
                     snippet.title
@@ -94,10 +94,27 @@ describe("PlaylistItems", () => {
 
         accessToken
         |> then_(listByPlaylistId(~parts, ~playlistId="PLE62536DAAECB0527"))
-        |> map(({ List.items }) =>
+        |> map(({ YouTube.Types.items }) =>
             items[0].snippet.title
             |> expect |> toEqual("Cool Experiments -- 1")
         )
         |> toJs
     });
+});
+
+describe("autopage", () => {
+    let doTest = (maxResults, pageSize) =>
+        accessToken
+        |> then_(YouTube.autopage(~maxResults, ~pageSize,
+            YouTube.Search.list(~query="st vincent")
+        ))
+        |> map(items =>
+            Js.Array.length(items)
+            |> expect |> toEqual(maxResults)
+        )
+        |> toJs;
+
+    testPromise("mR == pS", () => doTest(3, 3));
+    testPromise("mR > pS", () => doTest(3, 1));
+    testPromise("mR < pS", () => doTest(3, 6));
 });

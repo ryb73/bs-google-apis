@@ -1,6 +1,7 @@
 open Superagent;
 open Std;
 open YouTubeStd;
+open Belt.Option;
 
 [@decco.decode]
 type snippet = {
@@ -36,16 +37,15 @@ type item = {
 
 module List = {
     [@decco.decode]
-    type result = {
-        items: array(item)
-    };
+    type result = YouTubeTypes.result(item);
 
     let maxResultsLimit = 50;
 };
 
-let list = (~maxResults=?, ~query as q, accessToken) =>
+let list = (~maxResults=?, ~nextPageToken=?, ~query as q, accessToken) =>
     buildGet(apiUrl, accessToken, "/search")
     |> query("part", "snippet")
     |> query("q", q)
-    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
+    |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
+    |> setOptionalQueryParam("nextPageToken", nextPageToken)
     |> sendReq(List.result_decode);

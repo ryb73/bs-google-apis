@@ -29,9 +29,7 @@ type item('cd, 's) = {
 
 module List = {
     [@decco.decode]
-    type result('cd, 's) = {
-        items: array(item('cd, 's))
-    };
+    type result('cd, 's) = YouTubeTypes.result(item('cd, 's));
 
     let maxResultsLimit = 50;
 };
