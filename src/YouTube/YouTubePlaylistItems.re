@@ -59,10 +59,10 @@ let withSnippet = (parts) => {
     snippet: snippet_decode,
 };
 
-let listByPlaylistId = (~maxResults=?, ~nextPageToken=?, ~parts, ~playlistId, accessToken) =>
+let listByPlaylistId = (~maxResults=?, ~pageToken=?, ~parts, ~playlistId, accessToken) =>
     buildGet(apiUrl, accessToken, "/playlistItems")
     |> query("part", parts.string)
     |> query("playlistId", playlistId)
     |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
-    |> setOptionalQueryParam("nextPageToken", nextPageToken)
+    |> setOptionalQueryParam("pageToken", pageToken)
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));

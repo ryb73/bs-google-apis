@@ -46,7 +46,7 @@ module PlaylistItems: {
     let withSnippet: parts('a, 'b) => parts('a, snippet);
 
     let listByPlaylistId:
-        (~maxResults: int=?, ~nextPageToken: string=?,
+        (~maxResults: int=?, ~pageToken: string=?,
             ~parts: parts('a, 'b), ~playlistId: string, string)
         => Reduice.Promise.t(List.result('a, 'b));
 };
@@ -107,7 +107,7 @@ module Search: {
     };
 
     let list:
-        (~maxResults: int=?, ~nextPageToken: string=?, ~query: string, string) =>
+        (~maxResults: int=?, ~pageToken: string=?, ~query: string, string) =>
         Reduice.Promise.t(List.result);
 
 };
@@ -140,12 +140,12 @@ module Videos: {
     let withSnippet: parts('a, 'b) => parts('a, snippet);
 
     let listById:
-        (~maxResults: int=?, ~nextPageToken: string=?, ~parts: parts('a, 'b),
+        (~maxResults: int=?, ~pageToken: string=?, ~parts: parts('a, 'b),
             ~ids: Js.Array.t(id), string) => Reduice.Promise.t(List.result('a, 'b));
 };
 
 let autopage:
     (~maxResults: int=?, ~pageSize: int=?,
-        (~maxResults: int=?, ~nextPageToken: string=?, string) =>
+        (~maxResults: int=?, ~pageToken: string=?, string) =>
             Reduice.Promise.t(Types.result('b))
     , string) => Reduice.Promise.t(Js.Array.t('b));

@@ -88,10 +88,9 @@ describe("Playlists", () => {
 
 describe("PlaylistItems", () => {
     open YouTube.PlaylistItems;
+    let parts = parts |> withSnippet;
 
     testPromise("list", () => {
-        let parts = parts |> withSnippet;
-
         accessToken
         |> then_(listByPlaylistId(~parts, ~playlistId="PLE62536DAAECB0527"))
         |> map(({ YouTube.Types.items }) =>
@@ -108,10 +107,24 @@ describe("autopage", () => {
         |> then_(YouTube.autopage(~maxResults, ~pageSize,
             YouTube.Search.list(~query="st vincent")
         ))
-        |> map(items =>
+        |> map(items => {
+            /* Test that there are no duplicates (same page twice) */
+            items
+            |> Js.Array.reduce((acc, { YouTube.Search.id }) => {
+                let key = Js.String.make(id);
+                switch (Js.Dict.get(acc, key)) {
+                    | Some(_) => Js.Exn.raiseError("Duplicate found: " ++ key)
+                    | None => {
+                        Js.Dict.set(acc, key, true);
+                        acc;
+                    }
+                };
+            }, Js.Dict.empty());
+
+            /* Test that we got the expected # of items */
             Js.Array.length(items)
-            |> expect |> toEqual(maxResults)
-        )
+            |> expect |> toEqual(maxResults);
+        })
         |> toJs;
 
     testPromise("mR == pS", () => doTest(3, 3));

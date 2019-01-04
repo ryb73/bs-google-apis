@@ -13,7 +13,7 @@ let rec autopageHelper = (~nextPageToken=?, ~maxResults, ~pageSize, acc, request
     );
     queryMax < 1 ? resolve(acc)
     :
-    request(~nextPageToken?, queryMax)
+    request(~pageToken=?nextPageToken, queryMax)
     |> then_(({ Types.nextPageToken, items }) => {
         /** TODO: manage memory better */
         let acc = Js.Array.concat(items, acc);
@@ -27,8 +27,8 @@ let rec autopageHelper = (~nextPageToken=?, ~maxResults, ~pageSize, acc, request
 };
 
 let autopage = (~maxResults=50, ~pageSize=50, f, accessToken) => {
-    let request = (~nextPageToken=?, maxResults) =>
+    let request = (~pageToken=?, maxResults) =>
         /** TODO: find out why I can't just do `~maxResults,` */
-        f(~maxResults=?Some(maxResults), ~nextPageToken?, accessToken);
+        f(~maxResults=?Some(maxResults), ~pageToken?, accessToken);
     autopageHelper(~pageSize, ~maxResults, [||], request);
 };

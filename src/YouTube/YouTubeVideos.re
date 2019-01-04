@@ -55,10 +55,10 @@ let withSnippet = (parts) => {
     snippet: snippet_decode,
 };
 
-let listById = (~maxResults=?, ~nextPageToken=?, ~parts, ~ids, accessToken) =>
+let listById = (~maxResults=?, ~pageToken=?, ~parts, ~ids, accessToken) =>
     buildGet(apiUrl, accessToken, "/videos")
     |> query("part", parts.string)
     |> query("id", Js.Array.joinWith(",", ids))
     |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
-    |> setOptionalQueryParam("nextPageToken", nextPageToken)
+    |> setOptionalQueryParam("pageToken", pageToken)
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));

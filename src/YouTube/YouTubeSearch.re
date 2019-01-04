@@ -42,10 +42,10 @@ module List = {
     let maxResultsLimit = 50;
 };
 
-let list = (~maxResults=?, ~nextPageToken=?, ~query as q, accessToken) =>
+let list = (~maxResults=?, ~pageToken=?, ~query as q, accessToken) =>
     buildGet(apiUrl, accessToken, "/search")
     |> query("part", "snippet")
     |> query("q", q)
     |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
-    |> setOptionalQueryParam("nextPageToken", nextPageToken)
+    |> setOptionalQueryParam("pageToken", pageToken)
     |> sendReq(List.result_decode);
