@@ -2,7 +2,7 @@ open Shared;
 open Jest;
 open Expect;
 open Reduice.Promise;
-open PromiseEx;
+open PromEx;
 
 describe("Search", () => {
     testPromise("list", () => YouTube.Search.(

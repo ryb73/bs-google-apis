@@ -1,5 +1,5 @@
 open Superagent;
-open PromiseEx;
+open PromEx;
 
 [@decco]
 type tokens = {

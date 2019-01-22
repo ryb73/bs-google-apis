@@ -2,7 +2,7 @@ open Shared;
 open Jest;
 open Expect;
 open Reduice.Promise;
-open PromiseEx;
+open PromEx;
 
 testPromise("getMe", () =>
     accessToken

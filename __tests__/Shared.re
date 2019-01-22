@@ -1,4 +1,4 @@
-open PromiseEx;
+open PromEx;
 
 [@decco]
 type serviceAccount = {

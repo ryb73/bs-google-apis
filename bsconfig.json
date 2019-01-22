@@ -1,16 +1,16 @@
 {
-    "name" : "bs-google-apis",
+    "name" : "@ryb73/bs-google-apis",
     "namespace": true,
     "bs-dependencies": [
-        "reduice",
-        "decco",
-        "bs-superagent",
-        "bs-promise-ex",
-        "bs-qs",
-        "bs-jsonwebtoken",
+        "@ryb73/reduice",
+        "@ryb73/decco",
+        "@ryb73/bs-superagent",
+        "@ryb73/prom-ex",
+        "@ryb73/bs-qs",
+        "@ryb73/bs-jsonwebtoken",
     ],
     "bs-dev-dependencies": [
-        "bs-config",
+        "@ryb73/bs-config",
         "@glennsl/bs-jest",
     ],
     "sources" : [
