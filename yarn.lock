@@ -83,10 +83,24 @@
   dependencies:
     "@ryb73/reduice" "0.0.4"
 
+"@ryb73/prom-ex@0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@ryb73/prom-ex/-/prom-ex-0.0.4.tgz#7588b3375ae80bb508ece55cd2dd4ea65009680d"
+  integrity sha512-6CCQ4HmYLXW/81TQiLXkdm9U8LMjxaYwWAfzHPivFOhSh3ZBZ77g8/uoZSZReWi/1Qo/sbHOZfSGbCpWp4DlwQ==
+  dependencies:
+    "@ryb73/reduice" "0.0.5"
+
 "@ryb73/reduice@0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@ryb73/reduice/-/reduice-0.0.4.tgz#6844a95ac91e01117fe4cbe5fda6e680936e3c16"
   integrity sha512-P4lTUlQENBKAqX1Fig9u2h625SG7i2LskA9AnPkJR9/dqXG6AXNa4sVGUkJ7i3tMqzxOqWv3emoqKd5LgrCXig==
+  dependencies:
+    "@ryb73/bs-bluebird" "0.0.2"
+
+"@ryb73/reduice@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@ryb73/reduice/-/reduice-0.0.5.tgz#53286d64c7286de1f4124734d051fd091b2246de"
+  integrity sha512-SFuGIgIDwspJbvQ5up1We3JA9JP+6pk6MQcEicu4Kj3ZS3ilybacIJr7IQKCtMaMDpFuhmgdtiVK3wslPpT4Qg==
   dependencies:
     "@ryb73/bs-bluebird" "0.0.2"
 
