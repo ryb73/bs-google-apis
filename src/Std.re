@@ -1,7 +1,7 @@
 open Superagent;
 open Reduice.Promise;
 open Belt.Result;
-open Types;
+open ApiTypes;
 
 let buildGet = (apiUrl, accessToken, path) =>
     get(apiUrl ++ path)

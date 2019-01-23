@@ -1,6 +1,5 @@
 {
     "name" : "@ryb73/bs-google-apis",
-    "namespace": true,
     "bs-dependencies": [
         "@ryb73/reduice",
         "@ryb73/decco",
@@ -17,7 +16,7 @@
         {
             "dir": "src",
             "subdirs": true,
-            "public": ["Auth", "People", "Types", "YouTube"],
+            "public": ["GoogleApis"],
         },
         {
             "dir": "__tests__",

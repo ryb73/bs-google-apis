@@ -1,3 +1,4 @@
+open! GoogleApis;
 open Shared;
 open Jest;
 open Expect;

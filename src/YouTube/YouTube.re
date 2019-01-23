@@ -1,11 +1,5 @@
 open Reduice.Promise;
 
-module PlaylistItems = YouTubePlaylistItems;
-module Playlists = YouTubePlaylists;
-module Search = YouTubeSearch;
-module Videos = YouTubeVideos;
-module Types = YouTubeTypes;
-
 let rec autopageHelper = (~nextPageToken=?, ~maxResults, ~pageSize, acc, request) => {
     let queryMax = min(
         min(maxResults, pageSize),
@@ -14,7 +8,7 @@ let rec autopageHelper = (~nextPageToken=?, ~maxResults, ~pageSize, acc, request
     queryMax < 1 ? resolve(acc)
     :
     request(~pageToken=?nextPageToken, queryMax)
-    |> then_(({ Types.nextPageToken, items }) => {
+    |> then_(({ YouTubeTypes.nextPageToken, items }) => {
         /** TODO: manage memory better */
         let acc = Js.Array.concat(items, acc);
         switch (Js.Array.length(acc) >= maxResults, nextPageToken) {
