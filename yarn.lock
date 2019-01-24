@@ -90,6 +90,13 @@
   dependencies:
     "@ryb73/bs-bluebird" "0.0.2"
 
+"@ryb73/reduice@0.0.6":
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/@ryb73/reduice/-/reduice-0.0.6.tgz#ac5302e8429b23addb9560b3bae51d5d64a347c0"
+  integrity sha512-wLIp5sZNdHkgyGYizhYkphCSba7SfJc6nRGcIex2wJaQwDK2eRjZFkm/3cTOqZtD/+1zMAC2o2c3Sa8GpZV5Xg==
+  dependencies:
+    "@ryb73/bs-bluebird" "0.0.2"
+
 abab@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/abab/-/abab-2.0.0.tgz#aba0ab4c5eee2d4c79d3487d85450fb2376ebb0f"
