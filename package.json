@@ -1,6 +1,6 @@
 {
   "name": "@ryb73/bs-google-apis",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Bucklescript bindings for Google REST Apis",
   "main": "index.js",
   "scripts": {
