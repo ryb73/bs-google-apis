@@ -1,5 +1,5 @@
 open Superagent;
-open Std;
+open ApisStd;
 open YouTubeStd;
 
 [@decco.decode]

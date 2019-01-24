@@ -1,5 +1,5 @@
 open Superagent;
-open Std;
+open ApisStd;
 
 let _apiUrl = "https://people.googleapis.com/v1";
 
