@@ -7,6 +7,7 @@ module Auth: {
     };
     type responseType = Code | Token;
     type accessType = Online | Offline;
+    type prompt = None | Consent | SelectAccount;
     type scope =
         | Profile
         | Email
@@ -32,7 +33,7 @@ module Auth: {
     let refreshAccessToken:
         (string, string, string) => Reduice.Promise.t(tokens);
     let getAuthUrl:
-        (~state: string=?, ~accessType: accessType=?, string,
+        (~state: string=?, ~accessType: accessType=?, ~prompt: prompt=?, string,
         Js.Array.t(scope), string, responseType) => string;
 };
 

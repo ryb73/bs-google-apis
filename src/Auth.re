@@ -16,15 +16,15 @@ type scope =
     | UserAddressesRead | UserBirthdayRead | UserEmailsRead | UserPhoneNumbersRead
     | UserInfoEmail | UserInfoProfile;
 
-let _getResponseTypeString = fun
+let getResponseTypeString = fun
     | Code => "code"
     | Token => "token";
 
-let _getAccessTypeString = fun
+let getAccessTypeString = fun
     | Online => "online"
     | Offline => "offline";
 
-let _getScopeStringSingle = fun
+let getScopeStringSingle = fun
     | Profile => "profile" | Email => "email"
     | YouTube => "https://www.googleapis.com/auth/youtube"
     | YouTubeSSL => "https://www.googleapis.com/auth/youtube.force-ssl"
@@ -41,12 +41,12 @@ let _getScopeStringSingle = fun
     | UserInfoEmail => "https://www.googleapis.com/auth/userinfo.email"
     | UserInfoProfile => "https://www.googleapis.com/auth/userinfo.profile";
 
-let _getScopeString = (scopes) =>
+let getScopeString = (scopes) =>
     scopes
-    |> Js.Array.map(_getScopeStringSingle)
+    |> Js.Array.map(getScopeStringSingle)
     |> Js.Array.joinWith(" ");
 
-let _accessTokenApiCall = (reqData) =>
+let accessTokenApiCall = (reqData) =>
     post("https://www.googleapis.com/oauth2/v4/token")
     |> setHeader(ContentType(ApplicationXWwwFormUrlencoded))
     |> send(reqData)
@@ -67,19 +67,19 @@ let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) =>
     |];
 
     Belt.Option.map(accessType, (at) =>
-        Js.Array.push(("access_type", _getAccessTypeString(at)), opts));
+        Js.Array.push(("access_type", getAccessTypeString(at)), opts));
 
     opts
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
     |> Js.Json.object_
-    |> _accessTokenApiCall;
+    |> accessTokenApiCall;
 };
 
-let _generateJwt = (scope, email, privateKey) =>
+let generateJwt = (scope, email, privateKey) =>
     [|
         ("iss", Js.Json.string(email)),
-        ("scope", _getScopeString(scope) |> Js.Json.string),
+        ("scope", getScopeString(scope) |> Js.Json.string),
         ("aud", Js.Json.string("https://www.googleapis.com/oauth2/v4/token")),
         ("exp", (Js.Date.now() /. 1000. +. (60.*.60.)) |> floor |> Js.Json.number), /* 60min * 60sec = 1hr */
         ("iat", (Js.Date.now() /. 1000.) |> floor |> Js.Json.number)
@@ -92,12 +92,12 @@ let getTokensForServiceAccount = (scope, email, privateKey) =>
     /* https://developers.google.com/identity/protocols/OAuth2ServiceAccount */
     [|
         ("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"),
-        ("assertion", _generateJwt(scope, email, privateKey))
+        ("assertion", generateJwt(scope, email, privateKey))
     |]
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
     |> Js.Json.object_
-    |> _accessTokenApiCall;
+    |> accessTokenApiCall;
 
 let refreshAccessToken = (clientId, secret, refreshToken) =>
     [|
@@ -109,19 +109,27 @@ let refreshAccessToken = (clientId, secret, refreshToken) =>
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
     |> Js.Json.object_
-    |> _accessTokenApiCall;
+    |> accessTokenApiCall;
 
-let getAuthUrl = (~state=?, ~accessType=?, clientId, scopes, redirectUri, responseType) => {
+type prompt = None | Consent | SelectAccount;
+let prompt_encode = fun
+    | None => "none"
+    | Consent => "consent"
+    | SelectAccount => "select_account";
+
+let getAuthUrl =
+(~state=?, ~accessType=?, ~prompt=?, clientId, scopes, redirectUri, responseType) => {
     let opts = [|
         ("client_id", clientId),
         ("redirect_uri", redirectUri),
-        ("scope", _getScopeString(scopes)),
-        ("response_type", _getResponseTypeString(responseType)),
+        ("scope", getScopeString(scopes)),
+        ("response_type", getResponseTypeString(responseType)),
     |];
 
     Belt.Option.map(state, (s) => Js.Array.push(("state", s), opts));
     Belt.Option.map(accessType, (at) =>
-        Js.Array.push(("access_type", _getAccessTypeString(at)), opts));
+        Js.Array.push(("access_type", getAccessTypeString(at)), opts));
+    Belt.Option.map(prompt, (p) => Js.Array.push(("prompt", prompt_encode(p)), opts));
 
     let qs = opts
     |> Js.Dict.fromArray
