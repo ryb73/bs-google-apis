@@ -1,12 +1,11 @@
 {
     "name" : "@ryb73/bs-google-apis",
     "bs-dependencies": [
-        "@ryb73/reduice",
-        "@ryb73/decco",
-        "@ryb73/bs-superagent",
-        "@ryb73/prom-ex",
-        "@ryb73/bs-qs",
         "@ryb73/bs-jsonwebtoken",
+        "@ryb73/bs-qs",
+        "@ryb73/bs-superagent",
+        "@ryb73/decco",
+        "@ryb73/prom-ex",
     ],
     "bs-dev-dependencies": [
         "@ryb73/bs-config",

@@ -1,4 +1,4 @@
-open Reduice.Promise;
+open Js.Promise;
 
 let rec autopageHelper = (~nextPageToken=?, ~maxResults, ~pageSize, acc, request) => {
     let queryMax = min(

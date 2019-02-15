@@ -19,4 +19,4 @@ module List: {
 
 let list:
     (~maxResults: int=?, ~pageToken: string=?, ~query: string, string) =>
-    Reduice.Promise.t(List.result);
+    Js.Promise.t(List.result);

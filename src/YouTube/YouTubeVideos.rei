@@ -26,4 +26,4 @@ let withSnippet: parts('a, 'b) => parts('a, snippet);
 
 let listById:
     (~maxResults: int=?, ~pageToken: string=?, ~parts: parts('a, 'b),
-        ~ids: Js.Array.t(id), string) => Reduice.Promise.t(List.result('a, 'b));
+        ~ids: Js.Array.t(id), string) => Js.Promise.t(List.result('a, 'b));

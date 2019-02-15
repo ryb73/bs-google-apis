@@ -28,4 +28,4 @@ let withSnippet: parts('a, 'b) => parts('a, snippet);
 
 let listById:
     (~maxResults: int=?, ~parts: parts('a, 'b), ~ids: Js.Array.t(id),
-    string) => Reduice.Promise.t(List.result('a, 'b));
+    string) => Js.Promise.t(List.result('a, 'b));

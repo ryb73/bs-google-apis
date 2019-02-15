@@ -33,4 +33,4 @@ let withSnippet: parts('a, 'b) => parts('a, snippet);
 let listByPlaylistId:
     (~maxResults: int=?, ~pageToken: string=?,
         ~parts: parts('a, 'b), ~playlistId: string, string)
-    => Reduice.Promise.t(List.result('a, 'b));
+    => Js.Promise.t(List.result('a, 'b));

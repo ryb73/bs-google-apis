@@ -1,5 +1,5 @@
 let autopage:
     (~maxResults: int=?, ~pageSize: int=?,
         (~maxResults: int=?, ~pageToken: string=?, string) =>
-            Reduice.Promise.t(YouTubeTypes.result('b))
-    , string) => Reduice.Promise.t(Js.Array.t('b));
+            Js.Promise.t(YouTubeTypes.result('b))
+    , string) => Js.Promise.t(Js.Array.t('b));

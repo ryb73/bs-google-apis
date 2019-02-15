@@ -2,7 +2,7 @@ open! GoogleApis;
 open Shared;
 open Jest;
 open Expect;
-open Reduice.Promise;
+open Js.Promise;
 open PromEx;
 
 describe("Search", () => {
@@ -15,7 +15,6 @@ describe("Search", () => {
             | _ => expect(items[0].id) |> toEqual(Video("R4sqFmSqrSc"))
             }
         )
-        |> toJs
     ));
 });
 
@@ -37,7 +36,6 @@ describe("Videos", () => {
                     | _ => Js.Exn.raiseError("Invalid number of results")
                 }
             )
-            |> toJs
         );
 
         testPromise("one", () =>
@@ -52,7 +50,6 @@ describe("Videos", () => {
                     | _ => Js.Exn.raiseError("Invalid number of results")
                 }
             )
-            |> toJs
         );
 
         testPromise("many", () =>
@@ -62,7 +59,6 @@ describe("Videos", () => {
                 expect(Js.Array.length(items))
                 |> toEqual(2)
             )
-            |> toJs
         );
     });
 });
@@ -83,7 +79,6 @@ describe("Playlists", () => {
                 | _ => Js.Exn.raiseError("Invalid number of results")
             }
         )
-        |> toJs
     );
 });
 
@@ -98,7 +93,6 @@ describe("PlaylistItems", () => {
             items[0].snippet.title
             |> expect |> toEqual("Cool Experiments -- 1")
         )
-        |> toJs
     });
 });
 
@@ -126,7 +120,6 @@ describe("autopage", () => {
             Js.Array.length(items)
             |> expect |> toEqual(maxResults);
         })
-        |> toJs;
 
     testPromise("mR == pS", () => doTest(3, 3));
     testPromise("mR > pS", () => doTest(3, 1));
@@ -141,6 +134,5 @@ describe("autopage", () => {
             Js.Array.length(items)
             |> expect |> toEqual(0)
         )
-        |> toJs
     );
 });

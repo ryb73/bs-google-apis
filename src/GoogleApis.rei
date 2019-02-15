@@ -27,11 +27,11 @@ module Auth: {
         | UserInfoProfile;
     let getTokensFromCode:
         (~accessType: accessType=?, string, string, string, string) =>
-        Reduice.Promise.t(tokens);
+        Js.Promise.t(tokens);
     let getTokensForServiceAccount:
-        (Js.Array.t(scope), string, string) => Reduice.Promise.t(tokens);
+        (Js.Array.t(scope), string, string) => Js.Promise.t(tokens);
     let refreshAccessToken:
-        (string, string, string) => Reduice.Promise.t(tokens);
+        (string, string, string) => Js.Promise.t(tokens);
     let getAuthUrl:
         (~state: string=?, ~accessType: accessType=?, ~prompt: prompt=?, string,
         Js.Array.t(scope), string, responseType) => string;
@@ -76,7 +76,7 @@ module People: {
         | Urls
         | UserDefined;
     let makeFieldsString: Js.Array.t(field) => string;
-    let getMe: (string, Js.Array.t(field)) => Reduice.Promise.t(t);
+    let getMe: (string, Js.Array.t(field)) => Js.Promise.t(t);
 };
 
 module Types: {
@@ -87,9 +87,9 @@ module Types: {
 module YouTube: {
     let autopage:
         (~maxResults: int=?, ~pageSize: int=?,
-          (~maxResults: int=?, ~pageToken: string=?, string) => Reduice.Promise.t(YouTubeTypes.result('b)),
+          (~maxResults: int=?, ~pageToken: string=?, string) => Js.Promise.t(YouTubeTypes.result('b)),
           string
-        ) => Reduice.Promise.t(Js.Array.t('b));
+        ) => Js.Promise.t(Js.Array.t('b));
     module PlaylistItems = YouTubePlaylistItems;
     module Playlists = YouTubePlaylists;
     module Search = YouTubeSearch;

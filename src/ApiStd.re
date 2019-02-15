@@ -1,5 +1,5 @@
 open Superagent;
-open Reduice.Promise;
+open Js.Promise;
 open Belt.Result;
 open ApiTypes;
 
