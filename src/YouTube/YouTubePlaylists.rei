@@ -29,3 +29,7 @@ let withSnippet: parts('a, 'b) => parts('a, snippet);
 let listById:
     (~maxResults: int=?, ~parts: parts('a, 'b), ~ids: Js.Array.t(id),
     string) => Js.Promise.t(List.result('a, 'b));
+
+let listMine:
+    (~maxResults: int=?, ~parts: parts('a, 'b), string) =>
+    Js.Promise.t(List.result('a, 'b));
