@@ -119,6 +119,8 @@ let prompt_encode = fun
 
 let getAuthUrl =
 (~state=?, ~accessType=?, ~prompt=?, clientId, scopes, redirectUri, responseType) => {
+    /* https://developers.google.com/identity/protocols/OAuth2UserAgent */
+
     let opts = [|
         ("client_id", clientId),
         ("redirect_uri", redirectUri),
