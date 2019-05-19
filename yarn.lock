@@ -442,13 +442,13 @@
     bs-platform "^5.0.3"
     jsonwebtoken "^8.5.1"
 
-"@ryb73/bs-qs@3.0.5":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@ryb73/bs-qs/-/bs-qs-3.0.5.tgz#11559b92d1af60fbe0f2f59cc6bbacb937bde436"
-  integrity sha512-tT2nsma0C54FI7QMI/U1m4Fpwamd8XzY6aRbnyqZzYR+KxvWgH9WKHYRr3Q5fAcUdCIn5JRInPbk8Z8G8EG7aQ==
+"@ryb73/bs-qs@3.0.6":
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/@ryb73/bs-qs/-/bs-qs-3.0.6.tgz#cd4f229c8771d3db8800a8d7d32f61c83422d522"
+  integrity sha512-wYDr33Y+uSd8kbBDHFzcm3JH9DZXcLF59ht70LL/17A93eoHP18vS7680NuHHQWG62obDZCk1JDBwMn2iSx58Q==
   dependencies:
     "@ryb73/decco" "0.0.12"
-    bs-platform "5.0.3"
+    bs-platform "5.0.4"
     qs "6.7.0"
 
 "@ryb73/bs-superagent@0.0.11":
@@ -882,7 +882,12 @@ browser-resolve@^1.11.3:
   dependencies:
     resolve "1.1.7"
 
-bs-platform@5.0.3, bs-platform@^5.0.3:
+bs-platform@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.4.tgz#d406ef43c12d1b19d8546884d8b5b4e0fb709372"
+  integrity sha512-rXM+ztN8wYXQ4ojfFGylvPOf8GRLOvM94QJsMMV9VpsLChKCjesWMNybTZvpoyNsESu2nC5q+C9soG+BPhuUFQ==
+
+bs-platform@^5.0.3:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/bs-platform/-/bs-platform-5.0.3.tgz#2b167603ef52574cb9534fabab702f6013715e6c"
   integrity sha512-GAeypBebeDGTay5kJ3v5Z3Whp1Q4zQ0hAttflVtPG3zps88xDZnVAlS3JGIIBDmJFEMyNtv5947a/IWKvWXcPw==
