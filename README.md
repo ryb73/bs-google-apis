@@ -160,7 +160,7 @@ let listByPlaylistId:
 let listById:
     (~maxResults: int=?, ~parts: parts('a, 'b), ~ids: Js.Array.t(id),
     string) => Js.Promise.t(List.result('a, 'b));
-    
+
 Playlists.listById(~parts, ~ids=[|"<playlist ID>"|], accessToken);
 ```
 
@@ -170,7 +170,7 @@ List the authenticated user's playlists.
 
 ```reason
 let listMine:
-    (~maxResults: int=?, ~parts: parts('a, 'b), string) =>
+    (~maxResults: int=?, ~pageToken: string=?, ~parts: parts('a, 'b), string) =>
     Js.Promise.t(List.result('a, 'b));
 
 Playlists.listMine(~parts, accessToken);

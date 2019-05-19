@@ -31,5 +31,5 @@ let listById:
     string) => Js.Promise.t(List.result('a, 'b));
 
 let listMine:
-    (~maxResults: int=?, ~parts: parts('a, 'b), string) =>
+    (~maxResults: int=?, ~pageToken: string=?, ~parts: parts('a, 'b), string) =>
     Js.Promise.t(List.result('a, 'b));

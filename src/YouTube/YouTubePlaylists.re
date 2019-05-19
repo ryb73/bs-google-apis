@@ -1,6 +1,7 @@
 open Superagent;
 open ApiStd;
 open YouTubeStd;
+open Belt.Option;
 
 [@decco.decode]
 type snippet = {
@@ -58,13 +59,14 @@ let listById = (~maxResults=?, ~parts, ~ids, accessToken) =>
     buildGet(apiUrl, accessToken, "/playlists")
     |> query("part", parts.string)
     |> query("id", Js.Array.joinWith(",", ids))
-    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
+    |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));
 
 /* TODO: figure out how to test this */
-let listMine = (~maxResults=?, ~parts, accessToken) =>
+let listMine = (~maxResults=?, ~pageToken=?, ~parts, accessToken) =>
     buildGet(apiUrl, accessToken, "/playlists")
     |> query("part", parts.string)
     |> query("mine", "true")
-    |> setOptionalQueryParam("maxResults", Belt.Option.map(maxResults, string_of_int))
+    |> setOptionalQueryParam("maxResults", map(maxResults, string_of_int))
+    |> setOptionalQueryParam("pageToken", pageToken)
     |> sendReq(List.result_decode(parts.contentDetails, parts.snippet));
