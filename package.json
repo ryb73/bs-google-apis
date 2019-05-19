@@ -35,11 +35,11 @@
   },
   "devDependencies": {
     "@glennsl/bs-jest": "^0.4.8",
-    "jest": "^24.7.1",
-    "jest-circus": "^24.7.1"
+    "jest": "^24.8.0",
+    "jest-circus": "^24.8.0"
   },
   "dependencies": {
-    "@ryb73/bs-config": "0.0.3",
+    "@ryb73/bs-config": "0.0.4",
     "@ryb73/bs-jsonwebtoken": "0.0.4",
     "@ryb73/bs-qs": "3.0.5",
     "@ryb73/bs-superagent": "0.0.11",
