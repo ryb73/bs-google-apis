@@ -49,13 +49,13 @@ let getScopeString = (scopes) =>
 let accessTokenApiCall = (reqData) =>
     post("https://www.googleapis.com/oauth2/v4/token")
     |> setHeader(ContentType(ApplicationXWwwFormUrlencoded))
-    |> send(reqData)
+    |> sendDict(reqData)
     |> end_
     |> map(({ body }) => body
         |> Belt.Option.getExn
         |> tokens_decode
     )
-    |> unwrapResult;
+    |> map(Belt.Result.getExn);
 
 let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) => {
     let opts = [|
@@ -72,7 +72,6 @@ let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) =>
     opts
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
-    |> Js.Json.object_
     |> accessTokenApiCall;
 };
 
@@ -89,14 +88,13 @@ let generateJwt = (scope, email, privateKey) =>
     |> JsonWebToken.sign(~algorithm=JsonWebToken.RS256, _, privateKey);
 
 let getTokensForServiceAccount = (scope, email, privateKey) =>
-    /* https://developers.google.com/identity/protocols/OAuth2ServiceAccount */
+    // https://developers.google.com/identity/protocols/OAuth2ServiceAccount
     [|
         ("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer"),
         ("assertion", generateJwt(scope, email, privateKey))
     |]
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
-    |> Js.Json.object_
     |> accessTokenApiCall;
 
 let refreshAccessToken = (clientId, secret, refreshToken) =>
@@ -108,7 +106,6 @@ let refreshAccessToken = (clientId, secret, refreshToken) =>
     |]
     |> Js.Dict.fromArray
     |> Js.Dict.map([@bs] ((s) => Js.Json.string(s)))
-    |> Js.Json.object_
     |> accessTokenApiCall;
 
 type prompt = None | Consent | SelectAccount;
@@ -119,7 +116,7 @@ let prompt_encode = fun
 
 let getAuthUrl =
 (~state=?, ~accessType=?, ~prompt=?, clientId, scopes, redirectUri, responseType) => {
-    /* https://developers.google.com/identity/protocols/OAuth2UserAgent */
+    // https://developers.google.com/identity/protocols/OAuth2UserAgent
 
     let opts = [|
         ("client_id", clientId),
