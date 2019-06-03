@@ -8,7 +8,7 @@ open PromEx;
 describe("Search", () => {
     testPromise("list", () => YouTube.Search.(
         accessToken
-        |> then_(list(~query="anberlin"))
+        |> then_(list(~maxResults=1, ~query="anberlin"))
         |> map(({ YouTube.Types.items }) =>
             switch items {
             | [||] => failwith("No results found")
