@@ -38,45 +38,40 @@ module Auth: {
 };
 
 module People: {
-    [@decco] type name = { displayName: string, };
     [@decco]
-    type t = {
-        resourceName: string,
-        etag: string,
-        names: option(array(name)),
+    type fieldMetadata = {
+        primary: bool,
+        verified: bool,
     };
-    type field =
-        | Addresses
-        | AgeRanges
-        | Biographies
-        | Birthdays
-        | BraggingRights
-        | CoverPhotos
-        | EmailAddresses
-        | Events
-        | Genders
-        | ImClients
-        | Interests
-        | Locales
-        | Memberships
-        | Metadata
-        | Names
-        | Nicknames
-        | Occupations
-        | Organizations
-        | PhoneNumbers
-        | Photos
-        | Relations
-        | RelationshipInterests
-        | RelationshipStatuses
-        | Residences
-        | SipAddresses
-        | Skills
-        | Taglines
-        | Urls
-        | UserDefined;
-    let makeFieldsString: Js.Array.t(field) => string;
-    let getMe: (string, Js.Array.t(field)) => Js.Promise.t(t);
+    [@decco] type name = {
+        metadata: fieldMetadata,
+        displayName: string,
+    };
+    [@decco] type names = array(name);
+    [@decco]
+    type emailAddresses = {
+        displayName: string,
+        metadata: fieldMetadata,
+        value: string,
+    };
+    [@decco] type personMetadata = { deleted: option(bool) };
+    [@decco]
+    type t('e, 'm, 'n) = {
+        etag: string,
+        resourceName: string,
+        emailAddresses: 'e,
+        metadata: 'm,
+        names: 'n,
+    };
+    type initialized;
+    type uninitialized;
+    type parts('i, 'e, 'm, 'n);
+    let parts: parts(uninitialized, unit, unit, unit);
+    let withEmailAddresses: parts('i, 'e, 'm, 'n) => parts(initialized, emailAddresses, 'm, 'n);
+    let withMetadata: parts('i, 'e, 'm, 'n) => parts(initialized, 'e, personMetadata, 'n);
+    let withNames: parts('i, 'e, 'm, 'n) => parts(initialized, 'e, 'm, names);
+    let getMe:
+        (~parts: parts(initialized, 'e, 'm, 'n), string) => Js.Promise.t(t('e, 'm, 'n));
 };
 
 module Types: {

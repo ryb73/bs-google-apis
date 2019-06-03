@@ -3,9 +3,12 @@ open Jest;
 open Expect;
 open Js.Promise;
 open PromEx;
+open GoogleApis;
+open People;
 
 testPromise("getMe", () =>
+    // TODO: figure out how to test other parts
     accessToken
-    |> then_(People.getMe(_, [| People.Names |]))
-    |> map(({ People.resourceName }) => expect(resourceName) |> toBe(people.userId))
+    |> then_(getMe(~parts=(parts |> withMetadata)))
+    |> map(({ resourceName }) => expect(resourceName) |> toBe(people.userId))
 );
