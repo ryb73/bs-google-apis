@@ -10,11 +10,13 @@ type fieldMetadata = {
 };
 
 [@decco]
-type emailAddresses = {
+type emailAddress = {
     displayName: string,
     metadata: fieldMetadata,
     value: string,
 };
+
+[@decco] type emailAddresses = array(emailAddress);
 
 [@decco] type personMetadata = { deleted: option(bool) };
 
