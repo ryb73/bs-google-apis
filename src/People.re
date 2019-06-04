@@ -11,7 +11,7 @@ type fieldMetadata = {
 
 [@decco]
 type emailAddress = {
-    displayName: string,
+    displayName: option(string),
     metadata: fieldMetadata,
     value: string,
 };
