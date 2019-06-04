@@ -54,7 +54,7 @@ module People: {
         metadata: fieldMetadata,
         value: string,
     };
-    [@decco] type emailAddresses = array(emailAddress);
+    [@decco] type emailAddresses = option(array(emailAddress));
     [@decco] type personMetadata = { deleted: option(bool) };
     [@decco]
     type t('e, 'm, 'n) = {

@@ -16,7 +16,7 @@ type emailAddress = {
     value: string,
 };
 
-[@decco] type emailAddresses = array(emailAddress);
+[@decco] type emailAddresses = option(array(emailAddress));
 
 [@decco] type personMetadata = { deleted: option(bool) };
 
