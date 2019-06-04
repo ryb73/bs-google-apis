@@ -50,7 +50,7 @@ module People: {
     [@decco] type names = array(name);
     [@decco]
     type emailAddress = {
-        displayName: string,
+        displayName: option(string),
         metadata: fieldMetadata,
         value: string,
     };
