@@ -5,8 +5,8 @@ let _apiUrl = "https://people.googleapis.com/v1";
 
 [@decco]
 type fieldMetadata = {
-    primary: bool,
-    verified: bool,
+    primary: option(bool),
+    verified: option(bool),
 };
 
 [@decco]

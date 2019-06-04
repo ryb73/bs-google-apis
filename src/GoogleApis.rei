@@ -40,8 +40,8 @@ module Auth: {
 module People: {
     [@decco]
     type fieldMetadata = {
-        primary: bool,
-        verified: bool,
+        primary: option(bool),
+        verified: option(bool),
     };
     [@decco] type name = {
         metadata: fieldMetadata,
