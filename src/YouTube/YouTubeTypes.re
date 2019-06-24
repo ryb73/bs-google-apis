@@ -1,10 +1,10 @@
-[@decco.decode]
+[@decco]
 type pageInfo = {
     resultsPerPage: int,
     totalResults: int,
 };
 
-[@decco.decode]
+[@decco]
 type result('item) = {
     items: array('item),
     nextPageToken: option(string),

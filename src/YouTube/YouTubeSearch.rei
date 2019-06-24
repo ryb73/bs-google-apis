@@ -1,3 +1,4 @@
+[@decco.decode]
 type snippet = {
     channelId: string,
     channelTitle: string,
@@ -5,14 +6,16 @@ type snippet = {
     description: string,
 };
 
-type id = Video(string) | Playlist(string) | Channel(string);
+[@decco.decode] type id = Video(string) | Playlist(string) | Channel(string);
 
+[@decco.decode]
 type item = {
     id: id,
     snippet: snippet,
 };
 
 module List: {
+    [@decco.decode]
     type result = YouTubeTypes.result(item);
     let maxResultsLimit: int;
 };

@@ -1,15 +1,18 @@
+[@decco]
 type snippet = {
     channelId: string,
     title: string,
     description: string,
 };
 
-type id = string;
+[@decco] type id = string;
 
+[@decco]
 type contentDetails = {
     itemCount: int,
 };
 
+[@decco]
 type item('cd, 's) = {
     id: id,
     contentDetails: 'cd,
@@ -17,6 +20,7 @@ type item('cd, 's) = {
 };
 
 module List: {
+    [@decco]
     type result('cd, 's) = YouTubeTypes.result(item('cd, 's));
     let maxResultsLimit: int;
 };

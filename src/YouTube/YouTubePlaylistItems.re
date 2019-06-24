@@ -3,7 +3,7 @@ open ApiStd;
 open YouTubeStd;
 open Belt.Option;
 
-[@decco.decode]
+[@decco]
 type snippet = {
     channelId: string,
     channelTitle: string,
@@ -13,15 +13,15 @@ type snippet = {
     position: int,
 };
 
-[@decco.decode] type id = string;
+[@decco] type id = string;
 
-[@decco.decode]
+[@decco]
 type contentDetails = {
     videoId: string,
     note: option(string),
 };
 
-[@decco.decode]
+[@decco]
 type item('cd, 's) = {
     id: id,
     contentDetails: 'cd,
@@ -29,7 +29,7 @@ type item('cd, 's) = {
 };
 
 module List = {
-    [@decco.decode]
+    [@decco]
     type result('cd, 's) = YouTubeTypes.result(item('cd, 's));
 
     let maxResultsLimit = 50;
