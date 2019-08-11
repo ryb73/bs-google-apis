@@ -114,7 +114,8 @@ describe("autopage", () => {
                         acc;
                     }
                 };
-            }, Js.Dict.empty());
+            }, Js.Dict.empty())
+            |> ignore;
 
             /* Test that we got the expected # of items */
             Js.Array.length(items)

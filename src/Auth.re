@@ -67,7 +67,7 @@ let getTokensFromCode = (~accessType=?, clientId, secret, code,  redirectUri) =>
     |];
 
     Belt.Option.map(accessType, (at) =>
-        Js.Array.push(("access_type", getAccessTypeString(at)), opts));
+        Js.Array.push(("access_type", getAccessTypeString(at)), opts)) |> ignore;
 
     opts
     |> Js.Dict.fromArray
@@ -125,10 +125,10 @@ let getAuthUrl =
         ("response_type", getResponseTypeString(responseType)),
     |];
 
-    Belt.Option.map(state, (s) => Js.Array.push(("state", s), opts));
+    Belt.Option.map(state, (s) => Js.Array.push(("state", s), opts)) |> ignore;
     Belt.Option.map(accessType, (at) =>
-        Js.Array.push(("access_type", getAccessTypeString(at)), opts));
-    Belt.Option.map(prompt, (p) => Js.Array.push(("prompt", prompt_encode(p)), opts));
+        Js.Array.push(("access_type", getAccessTypeString(at)), opts)) |> ignore;
+    Belt.Option.map(prompt, (p) => Js.Array.push(("prompt", prompt_encode(p)), opts)) |> ignore;
 
     let qs = opts
     |> Js.Dict.fromArray

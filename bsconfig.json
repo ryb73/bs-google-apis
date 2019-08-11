@@ -24,5 +24,5 @@
     ],
     "refmt": 3,
     "ppx-flags": [ "@ryb73/decco/ppx/ppx_decco.sh" ],
-    "bsc-flags": [ "-w -10", "-bs-super-errors" ]
+    "bsc-flags": [ "-bs-super-errors" ]
 }
