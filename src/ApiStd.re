@@ -1,6 +1,5 @@
 open Superagent;
 open Js.Promise;
-open Belt.Result;
 open ApiTypes;
 
 let buildGet = (apiUrl, accessToken, path) =>
@@ -9,7 +8,7 @@ let buildGet = (apiUrl, accessToken, path) =>
 
 let _decodeResponse = (decoder, body) =>
     switch (decoder(body)) {
-        | Ok(decoded) => decoded
+        | Belt.Result.Ok(decoded) => decoded
         | Error(err) => raise(UnrecognizedResponseFormat(err))
     };
 
