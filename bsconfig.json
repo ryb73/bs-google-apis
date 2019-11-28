@@ -4,8 +4,8 @@
         "@ryb73/bs-jsonwebtoken",
         "@ryb73/bs-qs",
         "@ryb73/bs-superagent",
-        "@ryb73/decco",
         "@ryb73/prom-ex",
+        "decco",
     ],
     "bs-dev-dependencies": [
         "@ryb73/bs-config",
@@ -23,6 +23,9 @@
         }
     ],
     "refmt": 3,
-    "ppx-flags": [ "@ryb73/decco/ppx/ppx_decco.sh" ],
+    "ppx-flags": [ "decco/ppx" ],
+    "warnings": {
+        "number": "+A-4-9-40-41-42-48",
+    },
     "bsc-flags": [ "-bs-super-errors" ]
 }
