@@ -45,7 +45,7 @@ describe("Videos", () => {
                 switch items {
                     | [| { contentDetails } |] =>
                         contentDetails.duration
-                        |> expect |> toEqual("PT8M14S")
+                        |> expect |> toEqual("PT8M13S")
 
                     | _ => Js.Exn.raiseError("Invalid number of results")
                 }
