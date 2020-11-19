@@ -6,7 +6,7 @@ type snippet = {
     description: string,
 };
 
-[@decco.decode] type id = Video(string) | Playlist(string) | Channel(string);
+[@decco] type id = Video(string) | Playlist(string) | Channel(string);
 
 [@decco.decode]
 type item = {

@@ -71,3 +71,9 @@ package-links.json
 
 config/*
 !config/default.*
+
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions

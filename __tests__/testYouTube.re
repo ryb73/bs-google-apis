@@ -106,7 +106,7 @@ describe("autopage", () => {
             /* Test that there are no duplicates (same page twice) */
             items
             |> Js.Array.reduce((acc, { YouTube.Search.id }) => {
-                let key = Js.String.make(id);
+                let key = id |> YouTube.Search.id_encode |> Js.Json.stringify;
                 switch (Js.Dict.get(acc, key)) {
                     | Some(_) => Js.Exn.raiseError("Duplicate found: " ++ key)
                     | None => {
