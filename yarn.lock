@@ -793,47 +793,47 @@ __metadata:
   linkType: hard
 
 "@ryb73/bs-qs@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "@ryb73/bs-qs@npm:4.0.0"
+  version: 4.0.1
+  resolution: "@ryb73/bs-qs@npm:4.0.1"
   dependencies:
     decco: ^1.0.0
     qs: ^6.7.0
   peerDependencies:
-    bs-platform: ^6.0.1
-  checksum: e8304ee2dc9b488b417739760ec62374215f9a403c65a1d5588fd3f59385e44e62bb832740dc163049f4be623bb7416a67271183b16b0f4f6ac22a2d8345e6df
+    bs-platform: 6 || 7 || 8
+  checksum: 1ed48495e45528010a96c2770f0bcd8f7174abc96983d4093dbb768b1b7a5a79c3176093d8830a239fcf3eacb4e88f45af6ada70b30ed4eb869beee8f3faed65
   languageName: node
   linkType: hard
 
 "@ryb73/bs-superagent@npm:^0.4.0":
-  version: 0.4.0
-  resolution: "@ryb73/bs-superagent@npm:0.4.0"
+  version: 0.4.1
+  resolution: "@ryb73/bs-superagent@npm:0.4.1"
   dependencies:
     "@ryb73/opt-ex": ^0.3.1
     decco: ^1.0.0
     superagent: ^5.1.0
   peerDependencies:
-    bs-platform: ^6.0.1
-  checksum: 6b5e5615dc451d3707ecf2c4e5d46b158aab237187087acfe53aa112b5d739f3b1f620c7539081351ccad7df8589902b948b8ae263a25aec49c38c7a150aca63
+    bs-platform: 6 || 7 || 8
+  checksum: 3178c62db977bf76e871d174b4643feaa8c6d199aeef11136fa3d13b11667f795dfb99af3ee2e1598ec7a7126195a84c39c8b47e16bced01cd96943a7f1d51ec
   languageName: node
   linkType: hard
 
 "@ryb73/opt-ex@npm:^0.3.1":
-  version: 0.3.1
-  resolution: "@ryb73/opt-ex@npm:0.3.1"
+  version: 0.3.2
+  resolution: "@ryb73/opt-ex@npm:0.3.2"
   peerDependencies:
-    bs-platform: ^5.0.0 || ^6.0.0
-  checksum: 130f67ed4f970503d5cfe3788df6bfdd03fe45434bd6420bbfadb09001c66a3dd63299d100db5f243cdad74953432d1502bcef26272d3e36364216a7e55772b3
+    bs-platform: 6 || 7 || 8
+  checksum: 5aafbb608357849769db1c63431abf35a4657ee9d3812d1241af9dbbb6543513b8fb36b14139a6ddb0f05a8e40e8eb3bada075aaa030a7d264430ab2c9d21746
   languageName: node
   linkType: hard
 
 "@ryb73/prom-ex@npm:^1.0.1":
-  version: 1.0.1
-  resolution: "@ryb73/prom-ex@npm:1.0.1"
+  version: 1.0.2
+  resolution: "@ryb73/prom-ex@npm:1.0.2"
   dependencies:
     bs-let: ^0.1.10
   peerDependencies:
-    bs-platform: ^6.0.0
-  checksum: 6477fae116f92405052e515c88ea14512a4808684062b33a5457e871084defc48a86cebe8f4a0c92e385dfec90e8cac5ae729938b1fb9212467b36901ea4fb10
+    bs-platform: 6 || 7 || 8
+  checksum: aa6046cfe4518d27629ec6e5c296b1c357b4e5338c53d3fa4c6c69b7e3d5c2a487dabc0821e6b0bd4983bec8cb2f29dcf6c717ae1700b9ac690509ea4a485fbf
   languageName: node
   linkType: hard
 
@@ -1761,16 +1761,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"decco@npm:^1.0.0":
-  version: 1.0.0
-  resolution: "decco@npm:1.0.0"
-  peerDependencies:
-    bs-platform: ^6.0.1
-  checksum: 0b8c24476ffd2faa352dbf02c1bc57d52e25868429aeec6ddd538c5f95b347789e678d9a37422f1f4ef5376af504bece4b23e509edbf9948426d7f79bff46f59
-  languageName: node
-  linkType: hard
-
-"decco@npm:^1.3.0":
+"decco@npm:^1.0.0, decco@npm:^1.3.0":
   version: 1.3.0
   resolution: "decco@npm:1.3.0"
   peerDependencies:
